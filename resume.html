@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Easy Resume Builder</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #eef2f7;
+    color: #222;
+}
+
+header {
+    background: #183b56;
+    color: white;
+    text-align: center;
+    padding: 22px 10px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    width: 95%;
+    max-width: 1100px;
+    margin: 25px auto;
+}
+
+.form-box {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+.form-box h2 {
+    color: #183b56;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 8px;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-top: 15px;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 15px;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+button {
+    border: none;
+    padding: 12px 18px;
+    margin: 8px 5px 8px 0;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.generate {
+    background: #183b56;
+    color: white;
+}
+
+.normal-btn {
+    background: #777;
+    color: white;
+}
+
+.pro-btn {
+    background: #0b7a75;
+    color: white;
+}
+
+.print-btn {
+    background: #222;
+    color: white;
+}
+
+.education-row,
+.project-row {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 12px;
+    border-radius: 8px;
+}
+
+.remove-btn {
+    background: #d9534f;
+    color: white;
+}
+
+.resume-area {
+    margin-top: 30px;
+}
+
+.resume {
+    background: white;
+    max-width: 850px;
+    margin: auto;
+    min-height: 1000px;
+    padding: 40px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.15);
+}
+
+.photo {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #ddd;
+}
+
+.resume-header {
+    text-align: center;
+    border-bottom: 2px solid #333;
+    padding-bottom: 20px;
+}
+
+.resume-header h1 {
+    margin: 10px 0 5px;
+    font-size: 32px;
+}
+
+.contact {
+    color: #555;
+}
+
+.section {
+    margin-top: 25px;
+}
+
+.section h2 {
+    font-size: 20px;
+    color: #183b56;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 6px;
+}
+
+.skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.skill {
+    background: #e8edf2;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+/* Professional Template */
+
+.professional {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+}
+
+.prof-left {
+    background: #183b56;
+    color: white;
+    padding: 30px 20px;
+    min-height: 1000px;
+}
+
+.prof-left .photo {
+    display: block;
+    margin: auto;
+    border-color: white;
+}
+
+.prof-left h1 {
+    text-align: center;
+    font-size: 25px;
+}
+
+.prof-left h3 {
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    padding-bottom: 5px;
+}
+
+.prof-left p {
+    line-height: 1.6;
+}
+
+.prof-right {
+    padding: 35px;
+}
+
+.prof-right h2 {
+    color: #183b56;
+    border-bottom: 2px solid #183b56;
+    padding-bottom: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+@media(max-width:700px) {
+
+    .professional {
+        grid-template-columns: 1fr;
+    }
+
+    .prof-left {
+        min-height: auto;
+    }
+
+    .resume {
+        padding: 20px;
+    }
+}
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    header,
+    .form-box,
+    .print-btn {
+        display: none !important;
+    }
+
+    .container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .resume-area {
+        margin: 0;
+    }
+
+    .resume {
+        box-shadow: none;
+        width: 100%;
+        max-width: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>📄 Easy Resume Builder</h1>
+    <p>Create Normal & Professional Resumes Easily</p>
+</header>
+
+<div class="container">
+
+<div class="form-box">
+
+<h2>Personal Information</h2>
+
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter your full name">
+
+<label>Phone Number</label>
+<input type="text" id="phone" placeholder="Enter phone number">
+
+<label>Email</label>
+<input type="email" id="email" placeholder="Enter email">
+
+<label>Address</label>
+<textarea id="address" placeholder="Enter your address"></textarea>
+
+<label>Profile Photo</label>
+<input type="file" id="photoInput" accept="image/*">
+
+<h2>Career Objective</h2>
+
+<textarea id="objective"
+placeholder="Write your career objective"></textarea>
+
+<h2>Education / Qualifications</h2>
+
+<div id="educationContainer">
+
+<div class="education-row">
+
+<label>Qualification</label>
+<input type="text" class="qualification"
+placeholder="Example: B.Sc Computer Science">
+
+<label>Institution / Board</label>
+<input type="text" class="institution"
+placeholder="College / Board name">
+
+<label>Percentage / CGPA</label>
+<input type="text" class="percentage"
+placeholder="Example: 75%">
+
+</div>
+
+</div>
+
+<button type="button" class="pro-btn" onclick="addEducation()">
++ Add Education
+</button>
+
+<h2>Skills</h2>
+
+<textarea id="skills"
+placeholder="Enter skills separated by commas&#10;Example: HTML, CSS, JavaScript, Communication"></textarea>
+
+<h2>Projects / Experience</h2>
+
+<textarea id="experience"
+placeholder="Enter your projects, internship or work experience"></textarea>
+
+<h2>Personal Details</h2>
+
+<label>Date of Birth</label>
+<input type="text" id="dob" placeholder="DD/MM/YYYY">
+
+<label>Languages Known</label>
+<input type="text" id="languages"
+placeholder="Example: English, Telugu, Hindi">
+
+<label>Hobbies</label>
+<input type="text" id="hobbies"
+placeholder="Example: Reading, Sports, Music">
+
+<br><br>
+
+<h2>Choose Resume Type</h2>
+
+<select id="template">
+    <option value="normal">Normal Resume</option>
+    <option value="professional">Professional Resume</option>
+</select>
+
+<br><br>
+
+<button class="generate" onclick="generateResume()">
+Generate Resume
+</button>
+
+<button class="print-btn" onclick="window.print()">
+Print / Save PDF
+</button>
+
+</div>
+
+<div class="resume-area">
+
+<!-- NORMAL RESUME -->
+
+<div id="normalResume" class="resume">
+
+<div class="resume-header">
+
+<img id="normalPhoto"
+class="photo hidden"
+src=""
+alt="Profile Photo">
+
+<h1 id="normalName">Your Name</h1>
+
+<div class="contact">
+<span id="normalPhone">Phone</span> |
+<span id="normalEmail">Email</span>
+<br>
+<span id="normalAddress">Address</span>
+</div>
+
+</div>
+
+<div class="section">
+
+<h2>Career Objective</h2>
+
+<p id="normalObjective">
+Your career objective will appear here.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Education</h2>
+
+<div id="normalEducation"></div>
+
+</div>
+
+<div class="section">
+
+<h2>Skills</h2>
+
+<div id="normalSkills" class="skill-list"></div>
+
+</div>
+
+<div class="section">
+
+<h2>Projects / Experience</h2>
+
+<p id="normalExperience"></p>
+
+</div>
+
+<div class="section">
+
+<h2>Personal Details</h2>
+
+<p><b>Date of Birth:</b> <span id="normalDob"></span></p>
+<p><b>Languages:</b> <span id="normalLanguages"></span></p>
+<p><b>Hobbies:</b> <span id="normalHobbies"></span></p>
+
+</div>
+
+<div class="section">
+
+<h2>Declaration</h2>
+
+<p>
+I hereby declare that the information provided above is true
+and correct to the best of my knowledge.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- PROFESSIONAL RESUME -->
+
+<div id="professionalResume"
+class="resume professional hidden">
+
+<div class="prof-left">
+
+<img id="proPhoto"
+class="photo hidden"
+src=""
+alt="Profile Photo">
+
+<h1 id="proName">Your Name</h1>
+
+<h3>CONTACT</h3>
+
+<p id="proPhone">Phone</p>
+<p id="proEmail">Email</p>
+<p id="proAddress">Address</p>
+
+<h3>PERSONAL DETAILS</h3>
+
+<p><b>DOB:</b> <span id="proDob"></span></p>
+<p><b>Languages:</b><br>
+<span id="proLanguages"></span></p>
+
+<h3>SKILLS</h3>
+
+<p id="proSkills"></p>
+
+<h3>HOBBIES</h3>
+
+<p id="proHobbies"></p>
+
+</div>
+
+<div class="prof-right">
+
+<h2>CAREER OBJECTIVE</h2>
+
+<p id="proObjective"></p>
+
+<h2>EDUCATION</h2>
+
+<div id="proEducation"></div>
+
+<h2>PROJECTS / EXPERIENCE</h2>
+
+<p id="proExperience"></p>
+
+<h2>DECLARATION</h2>
+
+<p>
+I hereby declare that the information provided above is true
+and correct to the best of my knowledge.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let uploadedPhoto = "";
+
+
+/* PHOTO UPLOAD */
+
+document.getElementById("photoInput")
+.addEventListener("change", function(event) {
+
+    const file = event.target.files[0];
+
+    if(file) {
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+
+            uploadedPhoto = e.target.result;
+
+            document.getElementById("normalPhoto").src = uploadedPhoto;
+            document.getElementById("proPhoto").src = uploadedPhoto;
+
+            document.getElementById("normalPhoto")
+            .classList.remove("hidden");
+
+            document.getElementById("proPhoto")
+            .classList.remove("hidden");
+
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+});
+
+
+/* ADD EDUCATION */
+
+function addEducation() {
+
+    const container =
+    document.getElementById("educationContainer");
+
+    const row =
+    document.createElement("div");
+
+    row.className = "education-row";
+
+    row.innerHTML = `
+
+    <label>Qualification</label>
+
+    <input type="text"
+    class="qualification"
+    placeholder="Example: B.Sc Computer Science">
+
+    <label>Institution / Board</label>
+
+    <input type="text"
+    class="institution"
+    placeholder="College / Board name">
+
+    <label>Percentage / CGPA</label>
+
+    <input type="text"
+    class="percentage"
+    placeholder="Example: 75%">
+
+    <button type="button"
+    class="remove-btn"
+    onclick="this.parentElement.remove()">
+
+    Remove
+
+    </button>
+    `;
+
+    container.appendChild(row);
+}
+
+
+/* GENERATE RESUME */
+
+function generateResume() {
+
+    const name =
+    document.getElementById("name").value || "Your Name";
+
+    const phone =
+    document.getElementById("phone").value || "Phone";
+
+    const email =
+    document.getElementById("email").value || "Email";
+
+    const address =
+    document.getElementById("address").value || "Address";
+
+    const objective =
+    document.getElementById("objective").value ||
+    "To obtain a challenging position where I can use my skills and knowledge for professional growth.";
+
+    const skills =
+    document.getElementById("skills").value;
+
+    const experience =
+    document.getElementById("experience").value;
+
+    const dob =
+    document.getElementById("dob").value;
+
+    const languages =
+    document.getElementById("languages").value;
+
+    const hobbies =
+    document.getElementById("hobbies").value;
+
+
+    /* BASIC DETAILS */
+
+    document.getElementById("normalName").textContent = name;
+    document.getElementById("normalPhone").textContent = phone;
+    document.getElementById("normalEmail").textContent = email;
+    document.getElementById("normalAddress").textContent = address;
+    document.getElementById("normalObjective").textContent = objective;
+    document.getElementById("normalExperience").textContent = experience;
+    document.getElementById("normalDob").textContent = dob;
+    document.getElementById("normalLanguages").textContent = languages;
+    document.getElementById("normalHobbies").textContent = hobbies;
+
+
+    /* PROFESSIONAL DETAILS */
+
+    document.getElementById("proName").textContent = name;
+    document.getElementById("proPhone").textContent = phone;
+    document.getElementById("proEmail").textContent = email;
+    document.getElementById("proAddress").textContent = address;
+    document.getElementById("proObjective").textContent = objective;
+    document.getElementById("proExperience").textContent = experience;
+    document.getElementById("proDob").textContent = dob;
+    document.getElementById("proLanguages").textContent = languages;
+    document.getElementById("proHobbies").textContent = hobbies;
+
+
+    /* SKILLS */
+
+    const skillArray =
+    skills.split(",")
+    .map(skill => skill.trim())
+    .filter(skill => skill !== "");
+
+    const normalSkills =
+    document.getElementById("normalSkills");
+
+    normalSkills.innerHTML = "";
+
+    skillArray.forEach(skill => {
+
+        const span =
+        document.createElement("span");
+
+        span.className = "skill";
+
+        span.textContent = skill;
+
+        normalSkills.appendChild(span);
+
+    });
+
+    document.getElementById("proSkills")
+    .textContent = skillArray.join(" • ");
+
+
+    /* EDUCATION */
+
+    const qualifications =
+    document.querySelectorAll(".qualification");
+
+    const institutions =
+    document.querySelectorAll(".institution");
+
+    const percentages =
+    document.querySelectorAll(".percentage");
+
+
+    let normalEducationHTML = "";
+    let professionalEducationHTML = "";
+
+
+    for(let i = 0; i < qualifications.length; i++) {
+
+        if(qualifications[i].value.trim() !== "") {
+
+            normalEducationHTML += `
+
+            <div style="margin-bottom:15px">
+
+            <b>${qualifications[i].value}</b><br>
+
+            ${institutions[i].value}
+            <br>
+
+            ${percentages[i].value}
+
+            </div>
+            `;
+
+
+            professionalEducationHTML += `
+
+            <div style="margin-bottom:20px">
+
+            <h3>${qualifications[i].value}</h3>
+
+            <p>
+            ${institutions[i].value}
+            <br>
+            <b>${percentages[i].value}</b>
+            </p>
+
+            </div>
+            `;
+
+        }
+
+    }
+
+
+    document.getElementById("normalEducation")
+    .innerHTML = normalEducationHTML;
+
+    document.getElementById("proEducation")
+    .innerHTML = professionalEducationHTML;
+
+
+    /* TEMPLATE */
+
+    const template =
+    document.getElementById("template").value;
+
+    if(template === "normal") {
+
+        document.getElementById("normalResume")
+        .classList.remove("hidden");
+
+        document.getElementById("professionalResume")
+        .classList.add("hidden");
+
+    }
+
+    else {
+
+        document.getElementById("normalResume")
+        .classList.add("hidden");
+
+        document.getElementById("professionalResume")
+        .classList.remove("hidden");
+
+    }
+
+}
+
+
+/* SHOW DEFAULT NORMAL RESUME */
+
+generateResume();
+
+</script>
+
+</body>
+</html>
